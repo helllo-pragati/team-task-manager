@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <h1 class="page-title">Dashboard</h1>
+    <p class="page-subtitle">Overview of your projects and tasks</p>
+</div>
+
+<div class="stats-grid" id="stats-grid">
+    <div class="loading-spinner"><div class="spinner"></div></div>
+</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:8px">
+    <div class="card">
+        <div class="section-header">
+            <h2 class="section-title">⚠️ Overdue Tasks</h2>
+        </div>
+        <div id="overdue-list"><div class="loading-spinner"><div class="spinner"></div></div></div>
+    </div>
+    <div class="card">
+        <div class="section-header">
+            <h2 class="section-title">🕐 Recent Tasks</h2>
+        </div>
+        <div class="table-container" id="recent-tasks"><div class="loading-spinner"><div class="spinner"></div></div></div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>document.addEventListener('DOMContentLoaded', loadDashboard);</script>
+{% endblock %}

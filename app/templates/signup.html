@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up — TaskFlow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card fade-in">
+            <div class="auth-header">
+                <div class="auth-logo">⚡</div>
+                <h1 class="auth-title">Create Account</h1>
+                <p class="auth-subtitle">Join TaskFlow to manage your team's tasks</p>
+            </div>
+            <div class="alert alert-error" id="signup-alert"></div>
+            <form class="auth-form" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label class="form-label" for="signup-username">Username</label>
+                    <input class="form-input" type="text" id="signup-username" placeholder="johndoe" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-email">Email</label>
+                    <input class="form-input" type="email" id="signup-email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" for="signup-password">Password</label>
+                    <input class="form-input" type="password" id="signup-password" placeholder="Minimum 6 characters" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Select Role</label>
+                    <div class="role-selector">
+                        <div class="role-option selected" data-role="member">
+                            <div class="role-option-icon">👤</div>
+                            <div class="role-option-label">Member</div>
+                            <div class="role-option-desc">View & work on tasks</div>
+                        </div>
+                        <div class="role-option" data-role="admin">
+                            <div class="role-option-icon">👑</div>
+                            <div class="role-option-label">Admin</div>
+                            <div class="role-option-desc">Full project control</div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Create Account</button>
+            </form>
+            <div class="auth-footer">
+                Already have an account? <a href="/login">Sign in</a>
+            </div>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

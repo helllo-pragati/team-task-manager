@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Projects{% endblock %}
+{% block content %}
+<div class="page-header-row">
+    <div class="page-header" style="margin-bottom:0">
+        <h1 class="page-title">Projects</h1>
+        <p class="page-subtitle">Manage your team projects</p>
+    </div>
+    <div class="page-actions">
+        <button class="btn btn-primary" onclick="openModal('create-project-modal')">➕ New Project</button>
+    </div>
+</div>
+
+<div class="projects-grid" id="projects-grid">
+    <div class="loading-spinner"><div class="spinner"></div></div>
+</div>
+
+<!-- Create Project Modal -->
+<div class="modal-overlay" id="create-project-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Create New Project</h2>
+            <button class="modal-close" onclick="closeModal('create-project-modal')">&times;</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="project-name">Project Name</label>
+            <input class="form-input" type="text" id="project-name" placeholder="My Awesome Project">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="project-desc">Description</label>
+            <textarea class="form-textarea" id="project-desc" placeholder="What is this project about?"></textarea>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('create-project-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="createProject()">Create Project</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>document.addEventListener('DOMContentLoaded', loadProjects);</script>
+{% endblock %}

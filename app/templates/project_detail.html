@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+{% block title %}Project Detail{% endblock %}
+{% block content %}
+<div class="page-header-row">
+    <div class="page-header" style="margin-bottom:0">
+        <h1 class="page-title" id="project-title">Loading...</h1>
+        <p class="page-subtitle" id="project-description"></p>
+    </div>
+    <div class="page-actions">
+        <button class="btn btn-primary" onclick="openModal('create-task-modal')">➕ New Task</button>
+        <button class="btn btn-secondary" onclick="openModal('members-modal'); loadMembers();">👥 Members</button>
+        <button class="btn btn-danger admin-only" style="display:none" onclick="deleteProject()">🗑️ Delete</button>
+    </div>
+</div>
+
+<!-- Kanban Tabs -->
+<div class="tabs">
+    <button class="tab active" onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.getElementById('kanban-view').style.display='';document.getElementById('members-view').style.display='none';">📋 Tasks</button>
+    <button class="tab" onclick="this.parentElement.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));this.classList.add('active');document.getElementById('kanban-view').style.display='none';document.getElementById('members-view').style.display='';loadMembers();">👥 Members</button>
+</div>
+
+<!-- Kanban Board -->
+<div id="kanban-view">
+    <div class="kanban-board">
+        <div class="kanban-column column-todo">
+            <div class="kanban-column-header">
+                <span class="kanban-column-title">📋 To Do <span class="kanban-count" id="count-todo">0</span></span>
+            </div>
+            <div class="kanban-column-body" id="kanban-todo" data-status="todo"></div>
+        </div>
+        <div class="kanban-column column-progress">
+            <div class="kanban-column-header">
+                <span class="kanban-column-title">🔄 In Progress <span class="kanban-count" id="count-in_progress">0</span></span>
+            </div>
+            <div class="kanban-column-body" id="kanban-in_progress" data-status="in_progress"></div>
+        </div>
+        <div class="kanban-column column-done">
+            <div class="kanban-column-header">
+                <span class="kanban-column-title">✅ Done <span class="kanban-count" id="count-done">0</span></span>
+            </div>
+            <div class="kanban-column-body" id="kanban-done" data-status="done"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Members View -->
+<div id="members-view" style="display:none">
+    <div class="card">
+        <div class="section-header">
+            <h2 class="section-title">Team Members</h2>
+            <button class="btn btn-primary btn-sm admin-only" style="display:none" onclick="openModal('add-member-modal')">➕ Add Member</button>
+        </div>
+        <div class="members-list" id="members-list"></div>
+    </div>
+</div>
+
+<!-- Create Task Modal -->
+<div class="modal-overlay" id="create-task-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Create New Task</h2>
+            <button class="modal-close" onclick="closeModal('create-task-modal')">&times;</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="task-title">Title</label>
+            <input class="form-input" type="text" id="task-title" placeholder="Task title">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="task-desc">Description</label>
+            <textarea class="form-textarea" id="task-desc" placeholder="Task description"></textarea>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+            <div class="form-group">
+                <label class="form-label" for="task-priority">Priority</label>
+                <select class="form-select" id="task-priority">
+                    <option value="low">Low</option>
+                    <option value="medium" selected>Medium</option>
+                    <option value="high">High</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="task-due-date">Due Date</label>
+                <input class="form-input" type="date" id="task-due-date">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="task-assignee">Assign To</label>
+            <select class="form-select" id="task-assignee"><option value="">Unassigned</option></select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('create-task-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="createTask()">Create Task</button>
+        </div>
+    </div>
+</div>
+
+<!-- Members Modal -->
+<div class="modal-overlay" id="members-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Project Members</h2>
+            <button class="modal-close" onclick="closeModal('members-modal')">&times;</button>
+        </div>
+        <div class="members-list" id="members-list-modal"></div>
+    </div>
+</div>
+
+<!-- Add Member Modal -->
+<div class="modal-overlay" id="add-member-modal">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 class="modal-title">Add Team Member</h2>
+            <button class="modal-close" onclick="closeModal('add-member-modal')">&times;</button>
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="member-email">User Email</label>
+            <input class="form-input" type="email" id="member-email" placeholder="user@example.com">
+        </div>
+        <div class="form-group">
+            <label class="form-label" for="member-role">Role</label>
+            <select class="form-select" id="member-role">
+                <option value="member">Member</option>
+                <option value="admin">Admin</option>
+            </select>
+        </div>
+        <div class="modal-actions">
+            <button class="btn btn-secondary" onclick="closeModal('add-member-modal')">Cancel</button>
+            <button class="btn btn-primary" onclick="addMember()">Add Member</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>document.addEventListener('DOMContentLoaded', () => loadProjectDetail({{ project_id }}));</script>
+{% endblock %}

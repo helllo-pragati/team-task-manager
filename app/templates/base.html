@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TaskFlow{% endblock %} — Team Task Manager</title>
+    <meta name="description" content="Team Task Manager with project management, task tracking, and role-based access control">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+</head>
+<body>
+    {% block body %}
+    <button class="mobile-toggle" id="mobile-toggle">☰</button>
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="sidebar-logo">
+                    <div class="logo-icon">⚡</div>
+                    <div>
+                        <div class="logo-text">TaskFlow</div>
+                        <div class="logo-sub">Task Manager</div>
+                    </div>
+                </a>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="/" class="nav-item"><span class="nav-icon">📊</span> Dashboard</a>
+                <a href="/projects" class="nav-item"><span class="nav-icon">📁</span> Projects</a>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-display-avatar">--</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-display-name">User</div>
+                        <div class="user-role" id="user-display-role">member</div>
+                    </div>
+                </div>
+                <button class="btn-logout" id="btn-logout">🚪 Sign Out</button>
+            </div>
+        </aside>
+        <main class="main-content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    {% endblock %}
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
